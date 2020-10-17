@@ -1,0 +1,10 @@
+E:\Users\krang\Documents\GitHub\Guap_8025M\Шифрование и Дешифрование\Шифрование и Дешифрование\obj\Debug\Шифрование и Дешифрование.csprojAssemblyReference.cache
+E:\Users\krang\Documents\GitHub\Guap_8025M\Шифрование и Дешифрование\Шифрование и Дешифрование\obj\Debug\Шифрование_и_Дешифрование.Properties.Resources.resources
+E:\Users\krang\Documents\GitHub\Guap_8025M\Шифрование и Дешифрование\Шифрование и Дешифрование\obj\Debug\Шифрование и Дешифрование.csproj.GenerateResource.cache
+E:\Users\krang\Documents\GitHub\Guap_8025M\Шифрование и Дешифрование\Шифрование и Дешифрование\obj\Debug\Шифрование и Дешифрование.csproj.CoreCompileInputs.cache
+E:\Users\krang\Documents\GitHub\Guap_8025M\Шифрование и Дешифрование\Шифрование и Дешифрование\bin\Debug\Шифрование и Дешифрование.exe.config
+E:\Users\krang\Documents\GitHub\Guap_8025M\Шифрование и Дешифрование\Шифрование и Дешифрование\bin\Debug\Шифрование и Дешифрование.exe
+E:\Users\krang\Documents\GitHub\Guap_8025M\Шифрование и Дешифрование\Шифрование и Дешифрование\bin\Debug\Шифрование и Дешифрование.pdb
+E:\Users\krang\Documents\GitHub\Guap_8025M\Шифрование и Дешифрование\Шифрование и Дешифрование\obj\Debug\Шифрование и Дешифрование.exe
+E:\Users\krang\Documents\GitHub\Guap_8025M\Шифрование и Дешифрование\Шифрование и Дешифрование\obj\Debug\Шифрование и Дешифрование.pdb
+E:\Users\krang\Documents\GitHub\Guap_8025M\Шифрование и Дешифрование\Шифрование и Дешифрование\obj\Debug\Шифрование_и_Дешифрование.Form1.resources
