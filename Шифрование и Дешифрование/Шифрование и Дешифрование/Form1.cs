@@ -14,22 +14,21 @@ namespace Шифрование_и_Дешифрование
 {
     public partial class Form1 : Form
     {
-        string [] alphabet = {"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ,.!?1234567890", "ABCDEFGHIJKLMNOPQRSTUVWXYZ ,.!?1234567890"};
-        string [] mask = {"[а-яёА-Яё]", "[a-zA-Z]"};
+        string [] alphabet = {"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ,.!?1234567890", "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ", 
+                                            "ABCDEFGHIJKLMNOPQRSTUVWXYZ ,.!?1234567890", "ABCDEFGHIJKLMNOPQRSTUVWXYZ " };
+        string [] mask = {"[а-яёА-Яё]", "[а-яёА-Яё]", "[a-zA-Z]", "[a-zA-Z]" };
         int id = 0;
         string defaultMessage = "Однажды я гулял по песку, было классно";
         string defaultKey = "Солнце";
         public Form1()
         {
             InitializeComponent();
+            openFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
+            saveFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
             comboBox1.SelectedIndex = 0;
         }
         public char[] alphabetGenerator(string alphabetLetters = null) //Генератор алфавита
         {
-            if ((alphabetLetters.Length == 0) || (alphabetLetters == null))
-            {
-                alphabetLetters = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ,.!?1234567890";
-            }
             char[] alphabet = alphabetLetters.ToCharArray();
             return alphabet;
         }
@@ -116,12 +115,23 @@ namespace Шифрование_и_Дешифрование
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                StreamReader sr = new StreamReader(openFileDialog1.FileName);
+                textBox1.Text = File.ReadLines(openFileDialog1.FileName).First();
+                sr.Close();
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string filename = saveFileDialog1.FileName;
+                StreamWriter sw = new StreamWriter(filename, false, Encoding.UTF8);
+                sw.WriteLine(textBox3.Text);
+                sw.Close();
+            }
         }
     }
 }
