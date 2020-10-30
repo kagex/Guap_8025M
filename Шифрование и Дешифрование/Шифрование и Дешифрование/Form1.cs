@@ -14,35 +14,51 @@ namespace Шифрование_и_Дешифрование
 {
     public partial class Form1 : Form
     {
-        string [] alphabet = {"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ,.!?1234567890", "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ", 
-                                            "ABCDEFGHIJKLMNOPQRSTUVWXYZ ,.!?1234567890", "ABCDEFGHIJKLMNOPQRSTUVWXYZ " };
-        string [] mask = {"[а-яёА-Яё]", "[а-яёА-Яё]", "[a-zA-Z]", "[a-zA-Z]" };
+        string [] alphabet = {"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ,.!?1234567890", "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ",    //
+                                            "ABCDEFGHIJKLMNOPQRSTUVWXYZ ,.!?1234567890", "ABCDEFGHIJKLMNOPQRSTUVWXYZ " }; //Массив алфавитов
+        string [] mask = {"[а-яёА-Яё]", "[а-яёА-Яё]", "[a-zA-Z]", "[a-zA-Z]" }; //Массив масок для обработки символов ключа
         int id = 0;
-        string defaultMessage = "Однажды я гулял по песку, было классно";
-        string defaultKey = "Солнце";
+        string defaultMessage = "Однажды я гулял по песку, было классно";//стандартное сообщение
+        string defaultKey = "Солнце";//стандартный ключ
         public Form1()
         {
             InitializeComponent();
-            openFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
-            saveFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
+            openFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";//фильтры для
+            saveFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";//работы с файловой системой
             comboBox1.SelectedIndex = 0;
         }
-        public char[] alphabetGenerator(string alphabetLetters = null) //Генератор алфавита
+        public char[] alphabetGenerator(string alphabetLetters = null) //Генератор алфавита в массив символов из строки
         {
             char[] alphabet = alphabetLetters.ToCharArray();
             return alphabet;
         }
 
-        private string sentenceGenerator(string line)
+        private string sentenceGenerator(string line)//Генератор предложений, приводящий строку к "человеческому" виду
         {
             string result = "";
             char[] sym = line.ToCharArray();
             result += sym[0];
+
             for (int i = 1; i< sym.Length; i++)
             {
                 if(!Regex.IsMatch(sym[i-1].ToString(),@"[.!?]"))
                 {
-                    result += (sym[i].ToString()).ToLower();
+
+                    try //обработчик исключений на случай ошибки в начале строки
+                    {
+                        if ((sym[i - 1] == ' ') && Regex.IsMatch(sym[i - 2].ToString(), @"[.!?]"))
+                        {
+                            result += sym[i];
+                        }
+                        else
+                        {
+                            result += (sym[i].ToString()).ToLower();
+                        }
+                    } catch //действия в случае ошибки
+                    {
+                        Console.WriteLine("Ошибка, скорее всего в начале строки два пробела");
+                        result += sym[i];
+                    }
                 } else
                 {
                     result += sym[i];
@@ -50,45 +66,45 @@ namespace Шифрование_и_Дешифрование
             }
             return result;
         }
-
-        private string Encrypt(string message, string key, char[] alphabet)
+        
+        private string Encrypt(string message, string key, char[] alphabet)//Шифровальщик
         {
-            message = message.ToUpper();
-            key = key.ToUpper();
+            message = message.ToUpper(); //перевод сообщения и ключа
+            key = key.ToUpper();//в верхний регистр
 
-            int alphabetLength = alphabet.Length;
+            int alphabetLength = alphabet.Length;//получение длины алфавита
             string result = "";
-            int key_index = 0;
+            int key_index = 0;//индекс символа в ключе, для повторения ключа если строка больше ключа
 
-            foreach (char element in message)
+            foreach (char element in message) //перебор каждого символа в сообщении
             {
                 int c = (Array.IndexOf(alphabet, element) + Array.IndexOf(alphabet, key[key_index])) % alphabetLength;
                 result += alphabet[c];
                 key_index++;
-                if ((key_index + 1) == key.Length)
+                if ((key_index + 1) == key.Length)//обнуление индекса символа ключа
                     key_index = 0;
             }
-            result = sentenceGenerator(result);
+            result = sentenceGenerator(result);//вызов генератора предложений 
             return result;
         }
-        private string Decrypt(string message, string key, char[] alphabet)
+        private string Decrypt(string message, string key, char[] alphabet)//Дешифровщик
         {
-            message = message.ToUpper();
-            key = key.ToUpper();
+            message = message.ToUpper();//перевод сообщения и ключа
+            key = key.ToUpper();//в верхний регистр
 
-            int alphabetLength = alphabet.Length;
+            int alphabetLength = alphabet.Length;//получение длины алфавита
             string result = "";
             int key_index = 0;
 
-            foreach (char element in message)
+            foreach (char element in message)//перебор каждого символа в сообщении
             { 
                 int p = (Array.IndexOf(alphabet, element) + alphabetLength - Array.IndexOf(alphabet, key[key_index])) % alphabetLength;
                 result += alphabet[p];
                 key_index++;
-                if ((key_index + 1) == key.Length)
+                if ((key_index + 1) == key.Length)//обнуление индекса символа ключа
                     key_index = 0;
             }
-            result = sentenceGenerator(result);
+            result = sentenceGenerator(result); //вызов генератора предложений 
             return result;
         }
         private void button1_Click(object sender, EventArgs e)
