@@ -32,6 +32,25 @@ namespace Шифрование_и_Дешифрование
             char[] alphabet = alphabetLetters.ToCharArray();
             return alphabet;
         }
+
+        private string sentenceGenerator(string line)
+        {
+            string result = "";
+            char[] sym = line.ToCharArray();
+            result += sym[0];
+            for (int i = 1; i< sym.Length; i++)
+            {
+                if(!Regex.IsMatch(sym[i-1].ToString(),@"[.!?]"))
+                {
+                    result += (sym[i].ToString()).ToLower();
+                } else
+                {
+                    result += sym[i];
+                }
+            }
+            return result;
+        }
+
         private string Encrypt(string message, string key, char[] alphabet)
         {
             message = message.ToUpper();
@@ -49,6 +68,7 @@ namespace Шифрование_и_Дешифрование
                 if ((key_index + 1) == key.Length)
                     key_index = 0;
             }
+            result = sentenceGenerator(result);
             return result;
         }
         private string Decrypt(string message, string key, char[] alphabet)
@@ -68,10 +88,12 @@ namespace Шифрование_и_Дешифрование
                 if ((key_index + 1) == key.Length)
                     key_index = 0;
             }
+            result = sentenceGenerator(result);
             return result;
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            button4.Enabled = true;
             if ((textBox1.Text == "") || (textBox2.Text == "")) {
                 textBox1.Text = defaultMessage;
                 textBox2.Text = defaultKey;
@@ -118,7 +140,7 @@ namespace Шифрование_и_Дешифрование
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 StreamReader sr = new StreamReader(openFileDialog1.FileName);
-                textBox1.Text = File.ReadLines(openFileDialog1.FileName).First();
+                textBox1.Text = sentenceGenerator(File.ReadLines(openFileDialog1.FileName).First());
                 sr.Close();
             }
         }
