@@ -14,8 +14,8 @@ namespace Шифрование_и_Дешифрование
 {
     public partial class Form1 : Form
     {
-        string [] alphabet = {"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ,.!?1234567890", "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ",    //
-                                            "ABCDEFGHIJKLMNOPQRSTUVWXYZ ,.!?1234567890", "ABCDEFGHIJKLMNOPQRSTUVWXYZ " }; //Массив алфавитов
+        string [] alphabet = {"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ,.!?-:;_()1234567890", "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ,.!?-:;_()",    //
+                                            "ABCDEFGHIJKLMNOPQRSTUVWXYZ ,.!?-:;_()1234567890", "ABCDEFGHIJKLMNOPQRSTUVWXYZ ,.!?-:;_()" }; //Массив алфавитов
         string [] mask = {"[а-яёА-Яё]", "[а-яёА-Яё]", "[a-zA-Z]", "[a-zA-Z]" }; //Массив масок для обработки символов ключа
         int id = 0;
         string defaultMessage = "Однажды я гулял по песку, было классно";//стандартное сообщение
@@ -26,6 +26,7 @@ namespace Шифрование_и_Дешифрование
             openFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";//фильтры для
             saveFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";//работы с файловой системой
             comboBox1.SelectedIndex = 0;
+            Console.WriteLine($"{alphabet[0].Length} + {alphabet[1].Length} + {alphabet[2].Length} + {alphabet[3].Length}"); //вывод мощности алфавитов в консоль
         }
         public char[] alphabetGenerator(string alphabetLetters = null) //Генератор алфавита в массив символов из строки
         {
@@ -36,7 +37,7 @@ namespace Шифрование_и_Дешифрование
         private string sentenceGenerator(string line)//Генератор предложений, приводящий строку к "человеческому" виду
         {
             string result = "";
-            char[] sym = line.ToCharArray();
+            char[] sym = line.ToUpper().ToCharArray();
             result += sym[0];
 
             for (int i = 1; i< sym.Length; i++)
@@ -140,7 +141,7 @@ namespace Шифрование_и_Дешифрование
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            if ((textBox2.Text != "") && Regex.IsMatch(textBox2.Text, @mask[id]))
+            if ((textBox2.Text != "") && Regex.IsMatch(textBox2.Text, @mask[id]) && !Regex.IsMatch(textBox2.Text,@"\d")) //проверка ключа на валидность
             {
                 button1.Enabled = true;
                 label5.Visible = false;
